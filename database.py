@@ -3,16 +3,16 @@ import sqlite3
 conn = sqlite3.connect("movies.db")
 cursor = conn.cursor()
 
-cursor.execute('''
+cursor.executescript('''
                CREATE TABLE IF NOT EXISTS movie (
-               id INTEGER PRIMARY KEY AUTO INCREMENT,                       -- unique movie identifier
+               id INTEGER PRIMARY KEY AUTOINCREMENT,                       -- unique movie identifier
                title TEXT NOT NULL,                                         -- movie title
                original_language TEXT,                                      -- original language of the movie
                popularity INTEGER                                           -- numeric poularity score 
                );
 
                CREATE TABLE IF NOT EXISTS genre (
-               id INTEGER PRIMARY KEY AUTO INCREMENT,                       -- unique genre identifier
+               id INTEGER PRIMARY KEY AUTOINCREMENT,                       -- unique genre identifier
                 name TEXT UNIQUE NOT NULL                                   -- unique genre name 
                );
 
@@ -25,7 +25,7 @@ cursor.execute('''
                );
 
                CREATE TABLE IF NOT EXISTS production_company (
-               id INTEGER PRIMARY KEY AUTO INCREMENT,                       -- unique production_company identifier
+               id INTEGER PRIMARY KEY AUTOINCREMENT,                       -- unique production_company identifier
                name TEXT UNIQUE NOT NULL                                    -- required unique company name
                );
 
@@ -34,11 +34,11 @@ cursor.execute('''
                company_id INTEGER NOT NULL,                                 -- foreign key to production_company
                PRIMARY KEY (movie_id, company_id),                          -- composite primary key
                FOREIGN KEY (movie_id) REFERENCES movie(id),
-               FOREIGN KEY (company_id) REFERENCES (production_company)
+               FOREIGN KEY (company_id) REFERENCES production_company(id)
                );
 
                CREATE TABLE IF NOT EXISTS collection (
-               id INTEGER PRIMARY KEY AUTO INCREMENT,                       -- unique collection id
+               id INTEGER PRIMARY KEY AUTOINCREMENT,                       -- unique collection id
                name TEXT UNIQUE NOT NULL                                    -- unique collection name
                );
 
@@ -47,19 +47,20 @@ cursor.execute('''
                collection_id INTEGER NOT NULL,                              -- foreign key to collection 
                PRIMARY KEY (movie_id, collection_id),
                FOREIGN KEY (movie_id) REFERENCES movie(id),
-               FOREIGN KEY (collection id) REFERENCES collection(id)
+               FOREIGN KEY (collection_id) REFERENCES collection(id)
                );
 
                CREATE TABLE IF NOT EXISTS keyword (
-               id INTEGER PRIMARY KEY AUTO INCREMENT,                       -- unique keyword identifier
+               id INTEGER PRIMARY KEY AUTOINCREMENT,                       -- unique keyword identifier
                name TEXT UNIQUE NOT NULL                                    -- unique keyword name
+               );
 
                CREATE TABLE IF NOT EXISTS movie_to_keyword (
                movie_id INTEGER NOT NULL,                                   -- foreign key to movie
                keyword_id INTEGER NOT NULL,                                 -- foreign key to keyword
                PRIMARY KEY (movie_id, keyword_id),
                FOREIGN KEY (movie_id) REFERENCES movie(id),
-               FOREIGN KEY (keyword_id) REFERENCES keyword(id),
+               FOREIGN KEY (keyword_id) REFERENCES keyword(id)
                );
 
             ''')
