@@ -51,37 +51,52 @@ columns = [
 
 movies = movies[columns].copy()
 
-# for use on columns of metadata include json strings 
+# function to parse metadata columns (could be json string or string converted python lists)
 def json_col(col):
     try:
+        # handle empty / missing values
         if pd.isna(col) or col == "":
             return []
+        
+        # try json parsing first
         try:
             metadata = json.loads(col)
+        # if unsuccessful switch to python list 
         except json.JSONDecodeError:
             metadata = ast.literal_eval(col)
 
+        # extract name from list / dict and lowercase / remove spaces
         if isinstance(metadata, list):
             return [item.get("name", "").lower().replace(" ", "") for item in metadata if "name" in item]
         elif isinstance(metadata, dict) and "name" in metadata:
             return [metadata["name"].lower().replace(" ", "")]
         else:
             return []
+    # catch any errors and return an empty list
     except (ValueError, TypeError, SyntaxError):
         return []
             
+
+# function to clean and normalize movies dataframe
 def clean_movies(movies):
+    # convert id to numeric if invalid coerce to NaN
     movies["id"] = pd.to_numeric(movies["id"], errors="coerce")
+
+    # normalize to lowercase and no spaces
     movies["title"] = movies["title"].str.lower().str.replace(" ", "")
+    movies["original_language"] = movies["original_language"].str.lower().str.replace(" ", "")
+
+    # parse columns with json lists 
     movies["genres"] = movies["genres"].apply(json_col)
     movies["belongs_to_collection"] = movies["belongs_to_collection"].apply(json_col)
-    movies["original_language"] = movies["original_language"].str.lower().str.replace(" ", "")
-    movies["popularity"] = pd.to_numeric(movies["popularity"], errors="coerce").fillna(0).astype(int)
     movies["production_companies"] = movies["production_companies"].apply(json_col)
+
+    # convert to integer / replace invalid vals with 0
+    movies["popularity"] = pd.to_numeric(movies["popularity"], errors="coerce").fillna(0).astype(int)
 
     return movies
 
 movies = clean_movies(movies)
-print(movies.head(5))
+
 
 
