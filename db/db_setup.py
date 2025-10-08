@@ -10,12 +10,12 @@ def create_database():
                   title TEXT NOT NULL,                                         -- movie title
                   original_language TEXT,                                      -- original language of the movie
                   popularity INTEGER,                                          -- numeric poularity score 
-                  original_id INTEGER NOT NULL                                     -- original id from dataset
+                  original_id INTEGER NOT NULL                                 -- original id from dataset
                   );
 
                   CREATE TABLE IF NOT EXISTS genre (
-                  genre_id INTEGER PRIMARY KEY AUTOINCREMENT,                 -- unique genre identifier
-                  name TEXT UNIQUE NOT NULL                                   -- unique genre name 
+                  genre_id INTEGER PRIMARY KEY AUTOINCREMENT,                  -- unique genre identifier
+                  name TEXT UNIQUE NOT NULL                                    -- unique genre name 
                   );
 
                   CREATE TABLE IF NOT EXISTS movie_to_genre (

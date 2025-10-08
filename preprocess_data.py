@@ -24,18 +24,6 @@ def convert_keywords(keyword):
         return result
     except (ValueError):
         return []
-    
-# create new column keyword_lists with cleaned keyswords in list form 
-keywords["keyword_lists"] = keywords["keywords"].apply(convert_keywords)
-
-# create new CountVectorizer obj
-vectorizer = CountVectorizer()
-
-# create another column "key_space_sep" with list item keywords converted to space separated strings 
-keywords["key_space_sep"] = keywords["keyword_lists"].apply(lambda x: " ".join(x))
-
-# create the vectorized matrix 
-keyword_matrix = vectorizer.fit_transform(keywords["key_space_sep"])
 
 
 # remove excess columns from data 
