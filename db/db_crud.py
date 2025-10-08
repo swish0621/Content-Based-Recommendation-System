@@ -22,6 +22,7 @@ def get_movie(id):
 
 def delete_movie(id):
     cursor.execute("DELETE FROM movie WHERE id = ?", (id,))
+
 ###############
 # GENRE TABLE #
 ###############

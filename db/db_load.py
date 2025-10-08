@@ -1,10 +1,9 @@
 import sqlite3
-from preprocess_data import movies, keywords
-from db_crud import *
+from db.db_crud import *
 
 
 # load movies and their data into the database 
-def load_movies():
+def load_movies(movies):
     for _, row in movies.iterrows():
 
         # add movie
@@ -39,7 +38,7 @@ def load_movies():
 
     conn.commit()
 
-def load_keywords():
+def load_keywords(keywords):
     for _, row in keywords.iterrows():
 
         # adding movie id
@@ -54,7 +53,5 @@ def load_keywords():
                 keyword_id = keyword[0]
             link_movie_to_keyword(movie_id, keyword_id)
     conn.commit()
-            
-load_movies()
-load_keywords()
+
 
