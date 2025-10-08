@@ -5,10 +5,11 @@ cursor = conn.cursor()
 
 cursor.executescript('''
                CREATE TABLE IF NOT EXISTS movie (
-               id INTEGER PRIMARY KEY AUTOINCREMENT,                       -- unique movie identifier
+               id INTEGER PRIMARY KEY AUTOINCREMENT,                        -- unique movie identifier
                title TEXT NOT NULL,                                         -- movie title
                original_language TEXT,                                      -- original language of the movie
-               popularity INTEGER                                           -- numeric poularity score 
+               popularity INTEGER,                                          -- numeric poularity score 
+               original_id INT NOT NULL                                     -- original id from dataset
                );
 
                CREATE TABLE IF NOT EXISTS genre (

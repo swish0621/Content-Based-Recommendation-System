@@ -68,10 +68,13 @@ def json_col(col):
         # extract name from list / dict and lowercase / remove spaces
         if isinstance(metadata, list):
             return [item.get("name", "").lower().replace(" ", "") for item in metadata if "name" in item]
+        
         elif isinstance(metadata, dict) and "name" in metadata:
             return [metadata["name"].lower().replace(" ", "")]
+        
         else:
             return []
+        
     # catch any errors and return an empty list
     except (ValueError, TypeError, SyntaxError):
         return []
@@ -79,8 +82,9 @@ def json_col(col):
 
 # function to clean and normalize movies dataframe
 def clean_movies(movies):
-    # convert id to numeric if invalid coerce to NaN
+    # convert id to numeric if invalid coerce to NaN and rename to original_id
     movies["id"] = pd.to_numeric(movies["id"], errors="coerce")
+    movies = movies.rename(columns={"id": "original_id"})
 
     # normalize to lowercase and no spaces
     movies["title"] = movies["title"].str.lower().str.replace(" ", "")
@@ -94,6 +98,8 @@ def clean_movies(movies):
     # convert to integer / replace invalid vals with 0
     movies["popularity"] = pd.to_numeric(movies["popularity"], errors="coerce").fillna(0).astype(int)
 
+    # drop any rows that would violate the db rules
+    movies = movies.dropna(subset=["title"])
     return movies
 
 movies = clean_movies(movies)

@@ -6,8 +6,9 @@ from db_crud import *
 # load movies and their data into the database 
 def load_movies():
     for _, row in movies.iterrows():
+
         # add movie
-        movie_id = add_movie(row["title"], row["original_language"], row["popularity"])
+        movie_id = add_movie(row["title"], row["original_language"], row["popularity"], row["original_id"])
 
         # insert genres and link
         for genre_name in row["genres"]:

@@ -8,10 +8,10 @@ cursor = conn.cursor()
 # MOVIE TABLE #
 ###############
 
-def add_movie(title, language, popularity):
+def add_movie(title, language, popularity, original_id):
     cursor.execute(
-        "INSERT INTO movie (title, original_language, popularity) VALUES (?, ?, ?)",
-        (title, language, popularity)
+        "INSERT INTO movie (title, original_language, popularity, original_id) VALUES (?, ?, ?, ?)",
+        (title, language, popularity, original_id)
     )
     movie_id = cursor.lastrowid
     return movie_id
