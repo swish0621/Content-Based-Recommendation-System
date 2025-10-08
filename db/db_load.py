@@ -40,10 +40,11 @@ def load_movies(movies):
 
 def load_keywords(keywords):
     for _, row in keywords.iterrows():
-
-        # adding movie id
-        movie_id = row["id"]
-
+        # get the db id to match many to many table correctly 
+        movie_id = get_movie_id_by_original_id(row["id"])
+        if movie_id is None:
+            continue
+        movie_id = movie_id[0]
         # insert keywords and link 
         for keyword_name in row["keyword_lists"]:
             keyword = get_keyword_by_name(keyword_name)

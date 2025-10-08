@@ -17,11 +17,15 @@ def add_movie(title, language, popularity, original_id):
     return movie_id
 
 def get_movie(id):
-    cursor.execute("SELECT * FROM movie WHERE id = ?", (id,))
+    cursor.execute("SELECT * FROM movie WHERE movie_id = ?", (id,))
+    return cursor.fetchone()
+
+def get_movie_id_by_original_id(original_id):
+    cursor.execute("SELECT movie_id FROM movie WHERE original_id = ?", (original_id,))
     return cursor.fetchone()
 
 def delete_movie(id):
-    cursor.execute("DELETE FROM movie WHERE id = ?", (id,))
+    cursor.execute("DELETE FROM movie WHERE movie_id = ?", (id,))
 
 ###############
 # GENRE TABLE #
@@ -33,7 +37,7 @@ def add_genre(name):
     return genre_id
 
 def get_genre_by_id(id):
-    cursor.execute("SELECT * FROM genre WHERE id = ?", (id,))
+    cursor.execute("SELECT * FROM genre WHERE genre_id = ?", (id,))
     return cursor.fetchone()
 
 def get_genre_by_name(name):
@@ -41,7 +45,7 @@ def get_genre_by_name(name):
     return cursor.fetchone()
 
 def delete_genre(id):
-    cursor.execute("DELETE FROM genre WHERE id = ?", (id,))
+    cursor.execute("DELETE FROM genre WHERE genre_id = ?", (id,))
 
 ##################
 # MOVIE_TO_GENRE #
@@ -60,7 +64,7 @@ def add_production_company(name):
     return company_id
 
 def get_company_by_id(id):
-    cursor.execute("SELECT * FROM production_company WHERE id = ?", (id,))
+    cursor.execute("SELECT * FROM production_company WHERE company_id = ?", (id,))
     return cursor.fetchone()
 
 def get_company_by_name(name):
@@ -68,7 +72,7 @@ def get_company_by_name(name):
     return cursor.fetchone()
 
 def delete_production_company(id):
-    cursor.execute("DELETE FROM production_company WHERE id = ?", (id,))
+    cursor.execute("DELETE FROM production_company WHERE company_id = ?", (id,))
 
 ####################
 # MOVIE_TO_COMPANY #
@@ -87,7 +91,7 @@ def add_collection(name):
     return collection_id
 
 def get_collection_by_id(id):
-    cursor.execute("SELECT * FROM collection WHERE id = ?", (id,))
+    cursor.execute("SELECT * FROM collection WHERE collection_id = ?", (id,))
     return cursor.fetchone()
 
 def get_collection_by_name(name):
@@ -95,7 +99,7 @@ def get_collection_by_name(name):
     return cursor.fetchone()
 
 def delete_collection(id):
-    cursor.execute("DELETE FROM collection WHERE id = ?", (id,))
+    cursor.execute("DELETE FROM collection WHERE collection_id = ?", (id,))
 
 #######################
 # MOVIE_TO_COLLECTION #
@@ -114,7 +118,7 @@ def add_keyword(name):
     return keyword_id
 
 def get_keyword_by_id(id):
-    cursor.execute("SELECT * FROM keyword WHERE id = ?", (id,))
+    cursor.execute("SELECT * FROM keyword WHERE keyword_id = ?", (id,))
     return cursor.fetchone()
 
 def get_keyword_by_name(name):
@@ -122,7 +126,7 @@ def get_keyword_by_name(name):
     return cursor.fetchone()
 
 def delete_keyword(id):
-    cursor.execute("DELETE FROM keyword WHERE id = ?", (id,))
+    cursor.execute("DELETE FROM keyword WHERE keyword_id = ?", (id,))
 
 ####################
 # MOVIE_TO_KEYWORD #
