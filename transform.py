@@ -1,10 +1,14 @@
 import sqlite3
 import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.preprocessing import OneHotEncoder
+from scipy.sparse import hstack
 
-
+# will return 4 seperate unweighted matrices in the order of keyword_matrix, genre_matrix, collection_matrix, company_matrix and the movie ids
+# the matrix values are collected directly from querying the sql db 
 def create_matrices():
-    # query db for all keywords and their ids 
+
     conn = sqlite3.connect("movies.db")
     cursor = conn.cursor()
 
@@ -48,50 +52,41 @@ def create_matrices():
                                 ORDER BY m.movie_id;
                                 ''', conn)
 
-
-    # create new CountVectorizer obj and create the vectorized keyword matrix 
-    keyword_vectorizer = CountVectorizer()
+    # create new TfidfVectorizer obj and create the vectorized keyword matrix 
+    # downweights the most common terms and upweights rarer keywords 
+    keyword_vectorizer = TfidfVectorizer()
     keyword_matrix = keyword_vectorizer.fit_transform(keywords["keyword_list"])
 
-    # create new CountVectorizer obj and create the vectorized genre matrix 
-    genre_vectorizer = CountVectorizer()
-    genre_matrix = genre_vectorizer.fit_transform(genres["genre_list"])
+    # create new MultiLabelBinarizer obj and create the genre matrix 
+    genre_encoder = MultiLabelBinarizer()
+    genre_matrix = genre_encoder.fit_transform(genres["genre_list"].str.split(" "))
 
-    # create new CountVectorizer obj and create the vectorized collection matrix 
-    collection_vectorizer = CountVectorizer()
-    collection_matrix = collection_vectorizer.fit_transform(collections["collection_list"])
+    # create new OneHotEncoder obj and create the collection matrix 
+    collection_encoder = OneHotEncoder()
+    collection_matrix = collection_encoder.fit_transform(collections["collection_list"].values.reshape(-1, 1))
 
-    # create new CountVectorizer obj and create the vectorized collection matrix 
-    company_vectorizer = CountVectorizer()
-    company_matrix = company_vectorizer.fit_transform(companies["company_list"])
+    # create new MultiLabelBinarizer obj and create the company matrix 
+    company_encoder = MultiLabelBinarizer()
+    company_matrix = company_encoder.fit_transform(companies["company_list"].str.split(" "))
+
+    # keep movies_ids 
+    movie_ids = keywords["movie_id"].values
+
+    return keyword_matrix, genre_matrix, collection_matrix, company_matrix, movie_ids
 
 
 
-'''
-k_matrix = pd.DataFrame(
-    keyword_matrix.toarray(),
-    columns=keyword_vectorizer.get_feature_names_out()
-)
-print(k_matrix.head())
-
-g_matrix = pd.DataFrame(
-    genre_matrix.toarray(),
-    columns=genre_vectorizer.get_feature_names_out()
-)
-print(g_matrix.head())
-
-c_matrix = pd.DataFrame(
-    collection_matrix.toarray(),
-    columns=collection_vectorizer.get_feature_names_out()
-)
-print(c_matrix.head())
-
-company_matrix = pd.DataFrame(
-    company_matrix.toarray(),
-    columns=company_vectorizer.get_feature_names_out()
-)
-print(company_matrix.head())
-'''
+# input 4 seperate matrices and optionally weights in list form [keyword_weight, genre_weight, collection_weight, company_weight]
+# they will be weighted / combined using hstack
+# returns 1 matrix
+def combine_matrices(keyword_matrix, genre_matrix, collection_matrix, company_matrix, weights=None):
+    if weights:
+        keyword_matrix *= weights[0]
+        genre_matrix *= weights[1]
+        collection_matrix *= weights[2]
+        company_matrix *= weights[3]
+    combined = hstack([keyword_matrix, genre_matrix, collection_matrix, company_matrix])
+    return combined
 
 
 
