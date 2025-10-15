@@ -25,6 +25,11 @@ def convert_keywords(keyword):
     except (ValueError):
         return []
 
+# create new column keyword_lists with cleaned keyswords in list form 
+keywords["keyword_lists"] = keywords["keywords"].apply(convert_keywords)
+
+# create another column "key_space_sep" with list item keywords converted to space separated strings 
+keywords["key_space_sep"] = keywords["keyword_lists"].apply(lambda x: " ".join(x))
 
 # remove excess columns from data 
 columns = [
