@@ -66,6 +66,7 @@ def create_database():
                   );
 
                ''')
+   cursor.execute("CREATE INDEX IF NOT EXISTS idx_movie_original_id ON movie(original_id);")
    conn.commit()
    conn.close()
 
