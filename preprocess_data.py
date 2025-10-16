@@ -31,6 +31,9 @@ keywords["keyword_lists"] = keywords["keywords"].apply(convert_keywords)
 # create another column "key_space_sep" with list item keywords converted to space separated strings 
 keywords["key_space_sep"] = keywords["keyword_lists"].apply(lambda x: " ".join(x))
 
+keywords = keywords.rename(columns={"id": "original_id"})
+keywords["original_id"] = pd.to_numeric(keywords["original_id"], errors="coerce").astype(int)
+
 # remove excess columns from data 
 columns = [
     "id",
@@ -75,13 +78,16 @@ def json_col(col):
 
 # function to clean and normalize movies dataframe
 def clean_movies(movies):
+    # drop any rows that would violate the db rules
+    movies = movies.dropna(subset=["title", "id"])
+
     # convert id to numeric if invalid coerce to NaN and rename to original_id
-    movies["id"] = pd.to_numeric(movies["id"], errors="coerce")
+    movies["id"] = pd.to_numeric(movies["id"], errors="coerce").astype(int)
     movies = movies.rename(columns={"id": "original_id"})
 
     # normalize to lowercase and no spaces
-    movies["title"] = movies["title"].str.lower().str.replace(" ", "")
-    movies["original_language"] = movies["original_language"].str.lower().str.replace(" ", "")
+    movies["title"] = movies["title"].str.lower().str.replace(" ", "", regex=False)
+    movies["original_language"] = movies["original_language"].str.lower().str.replace(" ", "", regex=False)
 
     # parse columns with json lists 
     movies["genres"] = movies["genres"].apply(json_col)
@@ -91,8 +97,6 @@ def clean_movies(movies):
     # convert to integer / replace invalid vals with 0
     movies["popularity"] = pd.to_numeric(movies["popularity"], errors="coerce").fillna(0).astype(int)
 
-    # drop any rows that would violate the db rules
-    movies = movies.dropna(subset=["title"])
     return movies
 
 movies = clean_movies(movies)
