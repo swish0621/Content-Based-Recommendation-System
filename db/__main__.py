@@ -6,8 +6,10 @@ from db.db_load import load_keywords, load_movies
 
 def run_db_pipeline():
     create_database()
-    load_movies(movies)
-    load_keywords(keywords)
+    conn = sqlite3.connect("movies.db")
+    load_movies(conn, movies)
+    load_keywords(conn, keywords)
+    conn.close()
     print("Database setup / load complete")
 
 if __name__ == "__main__":
