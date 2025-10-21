@@ -24,23 +24,23 @@ def create_matrices():
 
     # create genres dataframe with movie_id and a space separated list of genres
     genres = pd.read_sql_query('''
-                            SELECT m.movie_id, GROUP_CONCAT(g.name, \" \") as genre_list
-                            FROM movie_to_genre m
-                            JOIN genre g
-                            ON m.genre_id = g.genre_id
-                            GROUP BY m.movie_id
-                            ORDER BY m.movie_id;
-                            ''', conn)
+                                SELECT m.movie_id, GROUP_CONCAT(g.name, \" \") as genre_list
+                                FROM movie_to_genre m
+                                JOIN genre g
+                                ON m.genre_id = g.genre_id
+                                GROUP BY m.movie_id
+                                ORDER BY m.movie_id;
+                                ''', conn)
 
     # create collections dataframe with movie_id and a space separated list of collections
     collections = pd.read_sql_query('''
-                                    SELECT m.movie_id, GROUP_CONCAT(c.name, \" \") as collection_list
-                                    FROM movie_to_collection m
-                                    JOIN collection c
-                                    ON m.collection_id = c.collection_id
-                                    GROUP BY m.movie_id
-                                    ORDER BY m.movie_id;
-                                    ''', conn)
+                                SELECT m.movie_id, GROUP_CONCAT(c.name, \" \") as collection_list
+                                FROM movie_to_collection m
+                                JOIN collection c
+                                ON m.collection_id = c.collection_id
+                                GROUP BY m.movie_id
+                                ORDER BY m.movie_id;
+                                ''', conn)
 
     # create companies dataframe with movie_id and a space separated list of companies
     companies = pd.read_sql_query('''
@@ -51,7 +51,20 @@ def create_matrices():
                                 GROUP BY m.movie_id
                                 ORDER BY m.movie_id;
                                 ''', conn)
+    movie_ids = pd.read_sql_query(''' 
+                                SELECT movie_id FROM movie ORDER BY movie_id
+                               ''', conn)
+    conn.close()
 
+    movie_ids = movie_ids["movie_id"].values
+    keywords = keywords.set_index("movie_id").reindex(movie_ids, fill_value="")
+    genres = genres.set_index("movie_id").reindex(movie_ids, fill_value="")
+    collections = collections.set_index("movie_id").reindex(movie_ids, fill_value="")
+    companies = companies.set_index("movie_id").reindex(movie_ids, fill_value="")
+
+    genres["genre_list"] = genres["genre_list"].apply(lambda x: x.split() if isinstance(x,str) and x else[])
+    companies["company_list"] = companies["company_list"].apply(lambda x: x.split() if isinstance(x,str) and x else[])
+    
     # create new TfidfVectorizer obj and create the vectorized keyword matrix 
     # downweights the most common terms and upweights rarer keywords 
     keyword_vectorizer = TfidfVectorizer()
@@ -59,7 +72,7 @@ def create_matrices():
 
     # create new MultiLabelBinarizer obj and create the genre matrix 
     genre_encoder = MultiLabelBinarizer()
-    genre_matrix = genre_encoder.fit_transform(genres["genre_list"].str.split(" "))
+    genre_matrix = genre_encoder.fit_transform(genres["genre_list"])
 
     # create new OneHotEncoder obj and create the collection matrix 
     collection_encoder = OneHotEncoder()
@@ -67,10 +80,7 @@ def create_matrices():
 
     # create new MultiLabelBinarizer obj and create the company matrix 
     company_encoder = MultiLabelBinarizer()
-    company_matrix = company_encoder.fit_transform(companies["company_list"].str.split(" "))
-
-    # keep movies_ids 
-    movie_ids = keywords["movie_id"].values
+    company_matrix = company_encoder.fit_transform(companies["company_list"])
 
     return keyword_matrix, genre_matrix, collection_matrix, company_matrix, movie_ids
 
