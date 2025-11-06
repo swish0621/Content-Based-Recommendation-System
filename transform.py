@@ -96,7 +96,7 @@ def combine_matrices(keyword_matrix, genre_matrix, collection_matrix, company_ma
         collection_matrix *= weights[2]
         company_matrix *= weights[3]
     combined = hstack([keyword_matrix, genre_matrix, collection_matrix, company_matrix])
-    return combined
+    return combined.tocsr()
 
 
 
