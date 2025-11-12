@@ -1,16 +1,19 @@
 <!doctype html>
 <html>
     <head>
-        <title>Recommendations</title>
+        <link rel="stylesheet" href="/static/css/styles.css">
     </head>
     <body>
+        <section id="container">
+        <section id="project-title"><h1>Content Recommendation Engine</h1></section>
         <!-- Output a variable number of list items from the recommender results -->
-        <h1>Movies We Recommend:</h1>
-        <ul>
+        <section id="project-subtitle"><h2>Recommendations:</h2></section>
+        <section id="results">
             {% for rec in recommendations %}
-            <li>{{rec.original_title}} ({{"%.3f"|format(rec.similarity) }})</li>
+            {{rec.original_title}} - similarity ({{"%.3f"|format(rec.similarity) }}) <br>
             {% endfor %}
-        </ul>
-        <a href="/"> Back</a>
+        </section>
+        <button type="button" onclick="history.back()" id="back-button">Back</button>
+        </section>
     </body>
 </html>

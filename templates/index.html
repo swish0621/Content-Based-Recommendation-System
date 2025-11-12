@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
+  <link rel="stylesheet" href="/static/css/styles.css">
   <head>
-    <title>Movie Recommender</title>
+    <title>Content Recommendation Engine</title>
     <!-- runs on user typing in search box -->
     <script>
       async function searchMovies() {
@@ -52,6 +53,10 @@
         // creates an option to remove the movies once they are selected
         const removeBtn = document.createElement("button");
         removeBtn.textContent = "×";
+        removeBtn.style.color = "white";
+        removeBtn.style.backgroundColor = "red";
+        removeBtn.style.padding = "4px";
+        removeBtn.style.marginInline = "5px";
         removeBtn.onclick = () => item.remove();
         item.appendChild(removeBtn);
 
@@ -60,14 +65,21 @@
     </script>
   </head>
   <body>
-    <h1>Movie Recommendation Engine</h1>
-    <input id="search" type="text" placeholder="Search movie..." oninput="searchMovies()" autocomplete="off">
-    <div id="results" style="margin-top:1rem;"></div>
+    <section id="container">
 
-    <h3>Selected Movies</h3>
-    <form action="/recommend" method="post">
-      <div id="selected"></div>
-      <button type="submit">Get Recommendations</button>
-    </form>
+      <section id="project-title"><h1>Content Recommendation Engine</h1></section>
+        <input id="search" type="text" placeholder="Search movie..." oninput="searchMovies()" autocomplete="off">
+        
+        <div id="results"></div>
+
+        <section id="project-subtitle"><h2>Selected Movies</h2></section>
+        <section id="selection-container">
+          <form action="/recommend" method="post">
+            <div id="selected"></div>
+            <button type="submit">Get Recommendations</button>
+        </form>
+      </section>
+
+    </section>
   </body>
 </html>
