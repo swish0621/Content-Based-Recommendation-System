@@ -48,6 +48,11 @@ columns = [
 movies = movies[columns].copy()
 movies["original_title"] = movies["title"]
 
+# REMOVE THESE 2 LINES TO USE THE FULL DATASET
+# DATA LIMITED TO WORK WITH FREE TIER RENDER 
+movies = movies.head(5000)
+keywords = keywords.head(5000)
+
 # function to parse metadata columns (could be json string or string converted python lists)
 def json_col(col):
     try:
