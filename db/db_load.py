@@ -7,7 +7,7 @@ def load_movies(conn, movies):
     for _, row in movies.iterrows():
 
         # add movie
-        movie_id = add_movie(conn, row["title"], row["original_language"], row["popularity"], row["original_id"])
+        movie_id = add_movie(conn, row["title"], row["original_language"], row["popularity"], row["original_id"], row["original_title"])
 
         # insert genres and link
         for genre_name in row["genres"]:

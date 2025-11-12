@@ -46,6 +46,7 @@ columns = [
 ]
 
 movies = movies[columns].copy()
+movies["original_title"] = movies["title"]
 
 # function to parse metadata columns (could be json string or string converted python lists)
 def json_col(col):

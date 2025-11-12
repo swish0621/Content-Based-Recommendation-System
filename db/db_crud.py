@@ -5,11 +5,11 @@ import sqlite3
 # MOVIE TABLE #
 ###############
 
-def add_movie(conn, title, language, popularity, original_id):
+def add_movie(conn, title, language, popularity, original_id, original_title):
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO movie (title, original_language, popularity, original_id) VALUES (?, ?, ?, ?)",
-        (title, language, popularity, original_id)
+        "INSERT INTO movie (title, original_language, popularity, original_id, original_title) VALUES (?, ?, ?, ?, ?)",
+        (title, language, popularity, original_id, original_title)
     )
     movie_id = cursor.lastrowid
     return movie_id
