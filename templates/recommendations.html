@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Recommendations</title>
+    </head>
+    <body>
+        <!-- Output a variable number of list items from the recommender results -->
+        <h1>Movies We Recommend:</h1>
+        <ul>
+            {% for rec in recommendations %}
+            <li>{{rec.original_title}} ({{"%.3f"|format(rec.similarity) }})</li>
+            {% endfor %}
+        </ul>
+        <a href="/"> Back</a>
+    </body>
+</html>

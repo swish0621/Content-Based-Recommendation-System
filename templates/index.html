@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Movie Recommender</title>
+    <!-- runs on user typing in search box -->
+    <script>
+      async function searchMovies() {
+        // retrieve value in search box and trim
+        const query = document.getElementById("search").value.trim();
+        // if the trimmed value is empty return early
+        if (!query) {
+          document.getElementById("results").innerHTML = "";
+          return;
+        }
+
+        // convert query to search safe format and wait on the result of the /search_movies endpoint
+        const res = await fetch(`/search_movies?q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+
+        // remove previous results 
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = "";
+
+        // for each movie in result create a new div showing movie original_title and on click call add movie function 
+        data.forEach(movie => {
+          const div = document.createElement("div");
+          div.textContent = movie.original_title;
+          div.style.cursor = "pointer";
+          div.onclick = () => addMovie(movie);
+          resultsDiv.appendChild(div);
+        });
+      }
+
+      // called when a movie search result is clicked
+      function addMovie(movie) {
+        const list = document.getElementById("selected");
+        // prevents duplicates
+        if (document.getElementById(`sel-${movie.id}`)) return;
+
+        // creates new div showing selected movie original_titles
+        const item = document.createElement("div");
+        item.id = `sel-${movie.id}`;
+        item.textContent = movie.original_title;
+
+        // creates a hidden list to use as the params for get_recommendations
+        const hidden = document.createElement("input");
+        hidden.type = "hidden";
+        hidden.name = "movie_ids";
+        hidden.value = movie.id;
+        item.appendChild(hidden);
+
+        // creates an option to remove the movies once they are selected
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "×";
+        removeBtn.onclick = () => item.remove();
+        item.appendChild(removeBtn);
+
+        list.appendChild(item);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Movie Recommendation Engine</h1>
+    <input id="search" type="text" placeholder="Search movie..." oninput="searchMovies()" autocomplete="off">
+    <div id="results" style="margin-top:1rem;"></div>
+
+    <h3>Selected Movies</h3>
+    <form action="/recommend" method="post">
+      <div id="selected"></div>
+      <button type="submit">Get Recommendations</button>
+    </form>
+  </body>
+</html>
