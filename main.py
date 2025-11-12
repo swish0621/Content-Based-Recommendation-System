@@ -42,7 +42,7 @@ def search_movies(q: str = Query("", min_length = 1, desc="Movie search Query"))
                     SELECT movie_id, original_title
                     FROM movie 
                     WHERE LOWER(original_title) LIKE LOWER(?)
-                    ORDER BY popularity
+                    ORDER BY popularity DESC
                     LIMIT 5
                    ''', (f"%{q.replace(' ', '').lower()}%",) )
     results = cursor.fetchall()
