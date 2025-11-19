@@ -28,3 +28,10 @@ Thumbs.db
 .idea/
 *.sublime-workspace
 *.sublime-project
+
+# Ignore generated npy files 
+*.npy
+
+# Ignore generated SQLite database 
+*.db
+*.sqlite3

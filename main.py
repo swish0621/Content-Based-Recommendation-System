@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import sqlite3
-from recommender import get_recommendations
+from feature.recommender import get_recommendations
 
 
 app = FastAPI()

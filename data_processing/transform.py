@@ -1,3 +1,9 @@
+# ------------------------
+# Data Tranformation Scipt 
+# ------------------------
+# Cleans Movie and Keyword Data for Databse Input
+
+
 import sqlite3
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer

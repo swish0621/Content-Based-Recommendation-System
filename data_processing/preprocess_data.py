@@ -1,14 +1,16 @@
-# Nicholas Swisher
-# Purpose: to preprocess and vectorize the data
-# download_data.py must be run before this file
+# ------------------------
+# Data Preprocessing Scipt 
+# ------------------------
+# Cleans Movie and Keyword Data for Databse Input
+
 
 import pandas as pd
 import ast
 import json
 
 # import the dataframes created in download_data
-from download_data import keywords
-from download_data import movies
+from data_processing.download_data import keywords
+from data_processing.download_data import movies
 
 from sklearn.feature_extraction.text import CountVectorizer
 

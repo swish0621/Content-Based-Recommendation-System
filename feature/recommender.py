@@ -1,8 +1,15 @@
+# -------------------
+# Recommender Feature
+# -------------------
+# Defines the feature to generate recommendations from input 
+# Defines the feature to build a user profile from inputs 
+
+
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import normalize
 from scipy.sparse import csr_matrix
-from transform import * 
+from data_processing.transform import * 
 
 
 def get_recommendations(list_of_movie_ids, top_n=10):
