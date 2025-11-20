@@ -7,7 +7,6 @@
 
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.preprocessing import normalize
 from scipy.sparse import csr_matrix
 from data_processing.transform import * 
 
@@ -37,6 +36,10 @@ def get_recommendations(list_of_movie_ids, top_n=10):
 
     # Get top n highest similarity scores
     highest_scores = np.argsort(-similarity_scores)[:top_n]
+
+    # Limit to only serve valid recommendations 
+    valid = similarity_scores[highest_scores] >= 0.5
+    highest_scores = highest_scores[valid]
 
     # Create a dataframe with the results
     recommendations = pd.DataFrame({
