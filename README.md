@@ -32,6 +32,8 @@ The goal of this project was to build a clean, modular recommendation engine tha
 ```
 https://content-based-recommendation-system-ofm5.onrender.com/
 ```
+<img width="1920" height="642" alt="Screenshot 2025-11-11 at 11 55 52 PM" src="https://github.com/user-attachments/assets/d0f8ae73-5847-4f7b-b9a2-f86e9ddf68ca" />
+
 
 ## System Architecture Overview
 The system follows a standard pipeline used in metadata-driven similarity models. The workflow moves from raw metadata, through preprocessing and structured storage, into feature generation and vector similarity computation, and finally into the serving layer that presents similarity rankings to users in an easily digestible format.
