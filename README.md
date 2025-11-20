@@ -1,3 +1,8 @@
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Framework-teal)
+![SQLite](https://img.shields.io/badge/SQLite-Database-gray)
+![Render](https://img.shields.io/badge/Deployed%20on-Render-purple)
+
 # Content-Based-Recommendation-System
 This project is a content-based movie recommender built from The Movies Dataset on Kaggle (rounakbanik).
 
@@ -22,7 +27,7 @@ The goal of this project was to build a clean, modular recommendation engine tha
 
 - FastAPI backend that serves recommendations, handles movie search, and drives the frontend UI.
 
-- Similarity matrix caching to speed up validation and development.
+- Similarity matrix caching in the validation pipeline to speed up repeated evaluation.
 
 - Precision at 5 validation tools to evaluate the quality of recommendations.
 
@@ -106,4 +111,28 @@ uvicorn main:app --reload
 ### Open Application
 ```
 http://127.0.0.1:8000
+```
+## Key Learnings
+- Designed a modular data pipeline from ingestion to serving layer.
+
+- Implemented sparse vector similarity search with TF-IDF and cosine similarity.
+
+- Modeled normalized relational data with many-to-many relationships.
+
+- Built a full-stack deployed application using FastAPI and Render.
+
+- Developed validation tools (Precision@5) to evaluate model quality.
+
+## Project Structure 
+```
+Content-Based-Recommendation-System/
+│── data_processing/       # Ingestion, cleaning, feature generation
+│── db/                    # Database schema, load scripts, and CRUD
+│── feature/               # Recommender engine logic
+│── validation/            # Precision@5 evaluation tools
+│── templates/             # Jinja2 frontend pages
+│── static/                # CSS
+│── main.py                # FastAPI app entry point
+│── movies.db              # SQLite database
+│── requirements.txt
 ```
