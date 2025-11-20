@@ -13,39 +13,39 @@ from data_processing.transform import *
 
 
 def get_recommendations(list_of_movie_ids, top_n=10):
-    # call import scripts and create individual matrices from imported movie data
+    # Call import scripts and create individual matrices from imported movie data
     keyword_matrix, genre_matrix, collection_matrix, company_matrix, movie_ids = create_matrices()
 
-    # cast all matrices to float
+    # Cast all matrices to float
     keyword_matrix = keyword_matrix.astype(float)
     genre_matrix = genre_matrix.astype(float)
     collection_matrix = collection_matrix.astype(float)
     company_matrix = company_matrix.astype(float)
 
-    # combine into one sparse matrix
+    # Combine into one sparse matrix
     combined_matrix = combine_matrices(keyword_matrix, genre_matrix, collection_matrix, company_matrix, [.35, .2, .25, .2] )
 
-    # get a taste profile from the users previous watch history
+    # Get a taste profile from the users previous watch history
     user_profile = build_user_profile(list_of_movie_ids, combined_matrix, movie_ids)
 
-    # compute cosine similarity between the user profile and avaliable movies
+    # Compute cosine similarity between the user profile and avaliable movies
     similarity_scores = cosine_similarity(user_profile, combined_matrix).flatten()
 
-    # remove previously viewed movies
+    # Remove previously viewed movies
     exclude = np.isin(movie_ids, list_of_movie_ids)
     similarity_scores[exclude] = 0
 
-    # get top n highest similarity scores
+    # Get top n highest similarity scores
     highest_scores = np.argsort(-similarity_scores)[:top_n]
 
-    # create a dataframe with the results
+    # Create a dataframe with the results
     recommendations = pd.DataFrame({
         "movie_id": movie_ids[highest_scores],
         "similarity": similarity_scores[highest_scores]
     })
     return recommendations
 
-# creates a single vector that represents the taste profile of a user
+# Creates a single vector that represents the taste profile of a user
 def build_user_profile(user_movie_ids, combined_matrix, movie_ids):
     movie_mask = np.isin(movie_ids, user_movie_ids)
 

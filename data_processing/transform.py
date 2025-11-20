@@ -11,14 +11,14 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.preprocessing import OneHotEncoder
 from scipy.sparse import hstack
 
-# will return 4 seperate unweighted matrices in the order of keyword_matrix, genre_matrix, collection_matrix, company_matrix and the movie ids
-# the matrix values are collected directly from querying the sql db 
+# Returns 4 seperate unweighted matrices in the order of keyword_matrix, genre_matrix, collection_matrix, company_matrix and the movie ids
+# The matrix values are collected directly from querying the sql db 
 def create_matrices():
 
     conn = sqlite3.connect("movies.db")
     cursor = conn.cursor()
 
-    # create keywords dataframe with movie_id and a space separated list of keywords 
+    # Create keywords dataframe with movie_id and a space separated list of keywords 
     keywords = pd.read_sql_query('''
                                 SELECT m.movie_id, GROUP_CONCAT(k.name, \" \") as keyword_list 
                                 FROM movie_to_keyword m 
@@ -28,7 +28,7 @@ def create_matrices():
                                 ORDER BY m.movie_id;
                                 ''', conn)
 
-    # create genres dataframe with movie_id and a space separated list of genres
+    # Create genres dataframe with movie_id and a space separated list of genres
     genres = pd.read_sql_query('''
                                 SELECT m.movie_id, GROUP_CONCAT(g.name, \" \") as genre_list
                                 FROM movie_to_genre m
@@ -38,7 +38,7 @@ def create_matrices():
                                 ORDER BY m.movie_id;
                                 ''', conn)
 
-    # create collections dataframe with movie_id and a space separated list of collections
+    # Create collections dataframe with movie_id and a space separated list of collections
     collections = pd.read_sql_query('''
                                 SELECT m.movie_id, GROUP_CONCAT(c.name, \" \") as collection_list
                                 FROM movie_to_collection m
@@ -48,7 +48,7 @@ def create_matrices():
                                 ORDER BY m.movie_id;
                                 ''', conn)
 
-    # create companies dataframe with movie_id and a space separated list of companies
+    # Create companies dataframe with movie_id and a space separated list of companies
     companies = pd.read_sql_query('''
                                 SELECT m.movie_id, GROUP_CONCAT(c.name, \" \") as company_list
                                 FROM movie_to_company m
@@ -71,20 +71,20 @@ def create_matrices():
     genres["genre_list"] = genres["genre_list"].apply(lambda x: x.split() if isinstance(x,str) and x else[])
     companies["company_list"] = companies["company_list"].apply(lambda x: x.split() if isinstance(x,str) and x else[])
     
-    # create new TfidfVectorizer obj and create the vectorized keyword matrix 
-    # downweights the most common terms and upweights rarer keywords 
+    # Create new TfidfVectorizer obj and create the vectorized keyword matrix 
+    # Downweights the most common terms and upweights rarer keywords 
     keyword_vectorizer = TfidfVectorizer()
     keyword_matrix = keyword_vectorizer.fit_transform(keywords["keyword_list"])
 
-    # create new MultiLabelBinarizer obj and create the genre matrix 
+    # Create new MultiLabelBinarizer obj and create the genre matrix 
     genre_encoder = MultiLabelBinarizer()
     genre_matrix = genre_encoder.fit_transform(genres["genre_list"])
 
-    # create new OneHotEncoder obj and create the collection matrix 
+    # Create new OneHotEncoder obj and create the collection matrix 
     collection_encoder = OneHotEncoder()
     collection_matrix = collection_encoder.fit_transform(collections["collection_list"].values.reshape(-1, 1))
 
-    # create new MultiLabelBinarizer obj and create the company matrix 
+    # Create new MultiLabelBinarizer obj and create the company matrix 
     company_encoder = MultiLabelBinarizer()
     company_matrix = company_encoder.fit_transform(companies["company_list"])
 
@@ -92,9 +92,9 @@ def create_matrices():
 
 
 
-# input 4 seperate matrices and optionally weights in list form [keyword_weight, genre_weight, collection_weight, company_weight]
-# they will be weighted / combined using hstack
-# returns 1 matrix
+# Input 4 seperate matrices and optionally weights in list form [keyword_weight, genre_weight, collection_weight, company_weight]
+# They will be weighted / combined using hstack
+# Returns 1 matrix
 def combine_matrices(keyword_matrix, genre_matrix, collection_matrix, company_matrix, weights=None):
     if weights:
         keyword_matrix *= weights[0]

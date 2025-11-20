@@ -1,10 +1,13 @@
+# ---------------------------------------------
+# Definitions of Table Specific CRUD Operations 
+# ---------------------------------------------
+
 import sqlite3
 
 
-###############
-# MOVIE TABLE #
-###############
-
+# -----------
+# MOVIE TABLE 
+# -----------
 def add_movie(conn, title, language, popularity, original_id, original_title):
     cursor = conn.cursor()
     cursor.execute(
@@ -28,10 +31,9 @@ def delete_movie(conn, id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM movie WHERE movie_id = ?", (id,))
 
-###############
-# GENRE TABLE #
-###############
-
+# -----------
+# GENRE TABLE 
+# -----------
 def add_genre(conn, name):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO genre (name) VALUES (?)", (name,))
@@ -52,18 +54,16 @@ def delete_genre(conn, id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM genre WHERE genre_id = ?", (id,))
 
-##################
-# MOVIE_TO_GENRE #
-##################
-
+# --------------
+# MOVIE_TO_GENRE 
+# --------------
 def link_movie_to_genre(conn, movie_id, genre_id):
     cursor = conn.cursor()
     cursor.execute("INSERT OR IGNORE INTO movie_to_genre (movie_id, genre_id) VALUES(?, ?)", (movie_id, genre_id))
     
-######################
-# PRODUCTION_COMPANY #
-######################
-
+# ------------------
+# PRODUCTION_COMPANY
+# ------------------
 def add_production_company(conn, name):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO production_company (name) VALUES (?)", (name,))
@@ -84,18 +84,16 @@ def delete_production_company(conn, id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM production_company WHERE company_id = ?", (id,))
 
-####################
-# MOVIE_TO_COMPANY #
-####################
-
+# ----------------
+# MOVIE_TO_COMPANY 
+# ----------------
 def link_movie_to_company(conn, movie_id, company_id):
     cursor = conn.cursor()
     cursor.execute("INSERT OR IGNORE INTO movie_to_company (movie_id, company_id) VALUES(?, ?)", (movie_id, company_id))
 
-##############
-# COLLECTION #
-##############
-
+# ----------
+# COLLECTION 
+# ----------
 def add_collection(conn, name):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO collection (name) VALUES (?)", (name,))
@@ -116,18 +114,16 @@ def delete_collection(conn, id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM collection WHERE collection_id = ?", (id,))
 
-#######################
-# MOVIE_TO_COLLECTION #
-#######################
-
+# -------------------
+# MOVIE_TO_COLLECTION 
+# -------------------
 def link_movie_to_collection(conn, movie_id, collection_id):
     cursor = conn.cursor()
     cursor.execute("INSERT OR IGNORE INTO movie_to_collection (movie_id, collection_id) VALUES(?, ?)", (movie_id, collection_id))
 
-###########
-# KEYWORD #
-###########
-
+# -------
+# KEYWORD 
+# -------
 def add_keyword(conn, name):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO keyword (name) VALUES (?)", (name,))
@@ -148,10 +144,9 @@ def delete_keyword(conn, id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM keyword WHERE keyword_id = ?", (id,))
 
-####################
-# MOVIE_TO_KEYWORD #
-####################
-
+# ----------------
+# MOVIE_TO_KEYWORD 
+# ----------------
 def link_movie_to_keyword(conn, movie_id, keyword_id):
     cursor = conn.cursor()
     cursor.execute("INSERT OR IGNORE INTO movie_to_keyword (movie_id, keyword_id) VALUES(?, ?)", (movie_id, keyword_id))

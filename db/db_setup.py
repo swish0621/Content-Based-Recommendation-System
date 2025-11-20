@@ -1,3 +1,7 @@
+# ---------------------------------------
+# Script to Create SQLite Database Schema
+# ---------------------------------------
+
 import sqlite3
 
 def create_database():
