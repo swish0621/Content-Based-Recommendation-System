@@ -9,7 +9,7 @@ A FastAPI backend serves the recommender, handling all interaction through a fro
 
 The goal of this project was to build a clean, modular recommendation engine that mirrors how real systems are designed. The data pipeline (data ingestion, preprocessing, database modeling, feature generation, and serving layer) was modeled to resemble what you’d see in an actual production setup. To show how these kinds of systems may be used in real business environments, the recommender is wrapped in a full-stack application and deployed via Render.
 
-## Features
+## 🚀 Features
 - Content-based recommendations built from movie metadata including keywords, genres, collections, and production companies.
 
 - TF-IDF keyword vectors combined with multilabel and one hot encoded features to represent each movie in a sparse vector space.
@@ -28,14 +28,14 @@ The goal of this project was to build a clean, modular recommendation engine tha
 
 - Deployed via Render as a full stack application.
 
-## View Deployed Demo
+## 📌 View Deployed Demo
 ```
 https://content-based-recommendation-system-ofm5.onrender.com/
 ```
 <img width="1920" height="642" alt="Screenshot 2025-11-11 at 11 55 52 PM" src="https://github.com/user-attachments/assets/d0f8ae73-5847-4f7b-b9a2-f86e9ddf68ca" />
 
 
-## System Architecture Overview
+## 🧠 System Architecture Overview
 The system follows a standard pipeline used in metadata-driven similarity models. The workflow moves from raw metadata, through preprocessing and structured storage, into feature generation and vector similarity computation, and finally into the serving layer that presents similarity rankings to users in an easily digestible format.
 
 ```
@@ -57,7 +57,7 @@ Frontend UI (movie selection and results)
       ↓
 Render Deployment
 ```
-## Tech Stack
+## 🛠️ Tech Stack
 - Python 3.12 – Core language used for data preprocessing, feature engineering, similarity computation, and application logic.
 
 - FastAPI – Backend framework that exposes search and recommendation endpoints and serves the frontend interface.
@@ -74,7 +74,7 @@ Render Deployment
 
 - Render – Deployment platform hosting the full-stack application.
 
-## Running Instructions (Local Host)
+## ▶️ Running Instructions (Local Host)
 ### Clone the Repository
 ```
 git clone https://github.com/swish0621/Content-Based-Recommendation-System.git
