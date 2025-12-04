@@ -1,7 +1,7 @@
 # ------------------------
-# Data Preprocessing Scipt 
+# Data Preprocessing Script 
 # ------------------------
-# Cleans Movie and Keyword Data for Databse Input
+# Cleans Movie and Keyword Data for Database Input
 
 
 import pandas as pd
@@ -27,7 +27,7 @@ def convert_keywords(keyword):
     except (ValueError):
         return []
 
-# Create new column keyword_lists with cleaned keyswords in list form 
+# Create new column keyword_lists with cleaned keywords in list form 
 keywords["keyword_lists"] = keywords["keywords"].apply(convert_keywords)
 
 # Create another column "key_space_sep" with list item keywords converted to space separated strings 

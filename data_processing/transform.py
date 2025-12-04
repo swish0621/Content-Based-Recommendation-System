@@ -1,7 +1,7 @@
 # ------------------------
-# Data Tranformation Scipt 
+# Data Transformation Script 
 # ------------------------
-# Cleans Movie and Keyword Data for Databse Input
+# Transforms movie data from database into a combined matrix to be used for similarity scoring 
 
 
 import sqlite3
@@ -11,7 +11,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.preprocessing import OneHotEncoder
 from scipy.sparse import hstack
 
-# Returns 4 seperate unweighted matrices in the order of keyword_matrix, genre_matrix, collection_matrix, company_matrix and the movie ids
+# Returns 4 separate unweighted matrices in the order of keyword_matrix, genre_matrix, collection_matrix, company_matrix and the movie ids
 # The matrix values are collected directly from querying the sql db 
 def create_matrices():
 
