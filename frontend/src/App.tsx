@@ -19,11 +19,29 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
 
   async function handleSearch() {
-    const res = await fetch(`/search?q=${encodeURIComponent(query)}`);
-    if (!res.ok) throw new Error(`Request Failed: ${res.status}`);
-    const data = (await res.json()) as Movie[];
-    console.log(data);
-    setResults(data);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch(`/search?q=${encodeURIComponent(query)}`);
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(
+          text
+            ? `Request Failed (${res.status}): ${text}`
+            : `Request Failed ${res.status}`,
+        );
+      }
+      const data = (await res.json()) as Movie[];
+      console.log(data);
+      setResults(data);
+    } catch (e: unknown) {
+      const message =
+        e instanceof Error ? e.message : "Something went wrong during search";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   function handleSelection(movie: Movie) {
