@@ -8,7 +8,7 @@
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
-from data_processing.transform import * 
+from backend.data_processing.transform import * 
 
 
 def get_recommendations(list_of_movie_ids, top_n=10):
@@ -27,7 +27,7 @@ def get_recommendations(list_of_movie_ids, top_n=10):
     # Get a taste profile from the users previous watch history
     user_profile = build_user_profile(list_of_movie_ids, combined_matrix, movie_ids)
 
-    # Compute cosine similarity between the user profile and avaliable movies
+    # Compute cosine similarity between the user profile and available movies
     similarity_scores = cosine_similarity(user_profile, combined_matrix).flatten()
 
     # Remove previously viewed movies
