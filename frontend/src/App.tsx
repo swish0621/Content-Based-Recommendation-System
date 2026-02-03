@@ -40,19 +40,21 @@ export default function App() {
   async function handleRecommendation(selected: Movie[]) {
     setLoading(true);
 
-    const ids = selected.map((sel) => sel.id);
+    try {
+      const ids = selected.map((sel) => sel.id);
 
-    const res = await fetch("/recommend", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(ids),
-    });
+      const res = await fetch("/recommend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ids),
+      });
 
-    if (!res.ok) throw new Error(`Request Failed: ${res.status}`);
-    const data = (await res.json()) as Recommendation[];
-    setRecommended(data);
-
-    setLoading(false);
+      if (!res.ok) throw new Error(`Request Failed: ${res.status}`);
+      const data = (await res.json()) as Recommendation[];
+      setRecommended(data);
+    } finally {
+      setLoading(false);
+    }
   }
 
   function handleReset() {
@@ -100,7 +102,7 @@ export default function App() {
 
       <button
         onClick={() => handleRecommendation(selected)}
-        disabled={selected.length === 0}
+        disabled={selected.length === 0 || loading}
       >
         {loading ? "Loading..." : "Get Recommendation"}
       </button>
