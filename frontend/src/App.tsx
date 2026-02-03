@@ -16,6 +16,7 @@ export default function App() {
   const [selected, setSelected] = useState<Movie[]>([]);
   const [recommended, setRecommended] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSearch() {
     const res = await fetch(`/search?q=${encodeURIComponent(query)}`);
@@ -39,6 +40,7 @@ export default function App() {
 
   async function handleRecommendation(selected: Movie[]) {
     setLoading(true);
+    setError(null);
 
     try {
       const ids = selected.map((sel) => sel.id);
@@ -49,9 +51,22 @@ export default function App() {
         body: JSON.stringify(ids),
       });
 
-      if (!res.ok) throw new Error(`Request Failed: ${res.status}`);
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(
+          text
+            ? `Request Failed (${res.status}): ${text}`
+            : `Request Failed: ${res.status} `,
+        );
+      }
       const data = (await res.json()) as Recommendation[];
       setRecommended(data);
+    } catch (e: unknown) {
+      const message =
+        e instanceof Error
+          ? e.message
+          : "Something went wrong while fetching recommendations";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -62,12 +77,13 @@ export default function App() {
     setRecommended([]);
     setResults([]);
     setSelected([]);
+    setError(null);
   }
 
   return (
     <div style={{ padding: 40 }}>
       <h1>Search</h1>
-
+      {error && <p style={{ color: "crimson" }}>{error}</p>}
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
@@ -76,7 +92,7 @@ export default function App() {
 
       <button
         onClick={handleSearch}
-        disabled={!query.trim()}
+        disabled={!query.trim() || loading}
         style={{ marginLeft: 8 }}
       >
         Search
