@@ -7,11 +7,11 @@ export default defineConfig({
   server: {
     proxy: {
       "/search": {
-        target: "http://localhost:8000",
+        target: "http://127.0.0.1:8000",
         changeOrigin: true,
       },
       "/recommend": {
-        target: "http://localhost:8000",
+        target: "http://127.0.0.1:8000",
         changeOrigin: true,
       },
     },
