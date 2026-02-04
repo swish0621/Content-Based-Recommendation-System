@@ -1,7 +1,7 @@
 import { useState } from "react";
-import type {Movie, Recommendation} from "./types";
+import type { Movie, Recommendation } from "./types";
 import Recommendations from "./components/Recommendation";
-
+import SelectedMovies from "./components/SelectedMovies";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -118,14 +118,7 @@ export default function App() {
       </ul>
 
       <h1>Selected Movies</h1>
-      <ul>
-        {selected.map((sel) => (
-          <li key={sel.id}>
-            {sel.original_title}{" "}
-            <button onClick={() => removeSelection(sel)}>X</button>
-          </li>
-        ))}
-      </ul>
+      <SelectedMovies selected={selected} onRemove={removeSelection} />
 
       <button
         onClick={() => handleRecommendation(selected)}
