@@ -13,6 +13,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch search results from the API
   async function handleSearch() {
     setLoading(true);
     setError(null);
@@ -32,11 +33,13 @@ export default function App() {
     }
   }
 
+  // Add movie to selection (doesn't allow duplicates)
   function handleSelection(movie: Movie) {
     if (selectedMovies.some((m) => m.id === movie.id)) return;
     setSelectedMovies((prev) => [...prev, movie]);
   }
 
+  // Remove movie from selection 
   function removeSelection(movie: Movie) {
     const updatedItems = selectedMovies.filter(
       (selected) => selected.id !== movie.id,
@@ -44,6 +47,7 @@ export default function App() {
     setSelectedMovies(updatedItems);
   }
 
+  // Fetch recommendation results from API
   async function handleRecommendation(selected: Movie[]) {
     setLoading(true);
     setError(null);
@@ -71,6 +75,7 @@ export default function App() {
     }
   }
 
+  // Resets all state values to default
   function handleReset() {
     setQuery("");
     setRecommendations([]);
@@ -79,6 +84,7 @@ export default function App() {
     setError(null);
   }
 
+  // Helper for API error handling 
   async function throwIfNotOk(res: Response) {
     if (res.ok) return;
     const text = await res.text().catch(() => "");
