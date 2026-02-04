@@ -1,13 +1,14 @@
 import { useState } from "react";
 import type { Movie, Recommendation } from "./types";
-import Recommendations from "./components/Recommendation";
+import Recommendations from "./components/Recommendations";
 import SelectedMovies from "./components/SelectedMovies";
+import SearchResults from "./components/SearchResults";
 
 export default function App() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Movie[]>([]);
-  const [selected, setSelected] = useState<Movie[]>([]);
-  const [recommended, setRecommended] = useState<Recommendation[]>([]);
+  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,15 +39,15 @@ export default function App() {
   }
 
   function handleSelection(movie: Movie) {
-    if (selected.some((m) => m.id === movie.id)) return;
-    setSelected((prev) => [...prev, movie]);
+    if (selectedMovies.some((m) => m.id === movie.id)) return;
+    setSelectedMovies((prev) => [...prev, movie]);
   }
 
   function removeSelection(movie: Movie) {
-    const updatedItems = selected.filter(
+    const updatedItems = selectedMovies.filter(
       (selected) => selected.id !== movie.id,
     );
-    setSelected(updatedItems);
+    setSelectedMovies(updatedItems);
   }
 
   async function handleRecommendation(selected: Movie[]) {
@@ -67,11 +68,11 @@ export default function App() {
         throw new Error(
           text
             ? `Request Failed (${res.status}): ${text}`
-            : `Request Failed: ${res.status} `,
+            : `Request Failed: ${res.status}`,
         );
       }
       const data = (await res.json()) as Recommendation[];
-      setRecommended(data);
+      setRecommendations(data);
     } catch (e: unknown) {
       const message =
         e instanceof Error
@@ -85,9 +86,9 @@ export default function App() {
 
   function handleReset() {
     setQuery("");
-    setRecommended([]);
+    setRecommendations([]);
     setResults([]);
-    setSelected([]);
+    setSelectedMovies([]);
     setError(null);
   }
 
@@ -100,7 +101,6 @@ export default function App() {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Type Something"
       />
-
       <button
         onClick={handleSearch}
         disabled={!query.trim() || loading}
@@ -108,31 +108,21 @@ export default function App() {
       >
         Search
       </button>
-
-      <ul>
-        {results.map((res) => (
-          <li key={res.id} onClick={() => handleSelection(res)}>
-            {res.original_title}
-          </li>
-        ))}
-      </ul>
-
+      <SearchResults movies={results} onSelect={handleSelection} />
       <h1>Selected Movies</h1>
-      <SelectedMovies selected={selected} onRemove={removeSelection} />
-
+      <SelectedMovies selected={selectedMovies} onRemove={removeSelection} />
       <button
-        onClick={() => handleRecommendation(selected)}
-        disabled={selected.length === 0 || loading}
+        onClick={() => handleRecommendation(selectedMovies)}
+        disabled={selectedMovies.length === 0 || loading}
       >
         {loading ? "Loading..." : "Get Recommendation"}
       </button>
-
-      <Recommendations recommended={recommended} />
+      <Recommendations recommended={recommendations} />
       <button
         onClick={handleReset}
         disabled={
-          selected.length === 0 &&
-          recommended.length === 0 &&
+          selectedMovies.length === 0 &&
+          recommendations.length === 0 &&
           query.trim().length === 0 &&
           results.length === 0
         }
