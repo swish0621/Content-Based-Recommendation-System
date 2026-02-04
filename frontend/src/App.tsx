@@ -3,6 +3,7 @@ import type { Movie, Recommendation } from "./types";
 import Recommendations from "./components/Recommendations";
 import SelectedMovies from "./components/SelectedMovies";
 import SearchResults from "./components/SearchResults";
+import "./App.css";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -89,23 +90,25 @@ export default function App() {
   }
 
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Search</h1>
+    <div className="container">
+      <h1 className="text-center">Recommendation System</h1>
       {error && <p style={{ color: "crimson" }}>{error}</p>}
-      <input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Type Something"
-      />
-      <button
-        onClick={handleSearch}
-        disabled={!query.trim() || loading}
-        style={{ marginLeft: 8 }}
-      >
-        Search
-      </button>
+      <div className="search-row">
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for a movie..."
+        />
+        <button
+          onClick={handleSearch}
+          disabled={!query.trim() || loading}
+          style={{ marginLeft: 8 }}
+        >
+          Search
+        </button>
+      </div>
       <SearchResults movies={results} onSelect={handleSelection} />
-      <h1>Selected Movies</h1>
+      <h1 className="text-center">Selected Movies</h1>
       <SelectedMovies selected={selectedMovies} onRemove={removeSelection} />
       <button
         onClick={() => handleRecommendation(selectedMovies)}

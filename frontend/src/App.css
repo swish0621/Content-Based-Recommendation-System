@@ -1,0 +1,110 @@
+/* === Base reset === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Typography & body === */
+html,
+body,
+#root {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #676768;
+  color: #f9f7f7;
+}
+
+.container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #151557;
+  border: 2px solid goldenrod;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* === Layout utils === */
+.text-center {
+  text-align: center;
+}
+
+.spacing-sm {
+  margin-top: 12px;
+}
+
+.spacing-md {
+  margin-top: 20px;
+}
+
+.spacing-lg {
+  margin-top: 30px;
+}
+
+/* === Buttons === */
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #3182ce;
+  color: white;
+  font-weight: 500;
+}
+
+button:hover:not(:disabled) {
+  background: #2b6cb0;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* === Lists === */
+ul {
+  list-style: none;
+}
+
+li {
+  padding: 8px;
+  border-bottom: 1px solid #444;
+  transition: background 0.15s;
+}
+
+li:hover {
+  background: #2a2a80;
+  color: white;
+  cursor: pointer;
+}
+
+.search-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.search-row input {
+  flex: 1;
+  max-width: 400px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.remove-btn {
+  padding: 2px 6px;
+  font-size: 12px;
+  background: crimson;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+.remove-btn:hover:not(:disabled) {
+  background: darkred;
+}
