@@ -1,13 +1,13 @@
 import type { Recommendation } from "../types";
 
 type Props = {
-  recommended: Recommendation[];
+  recommendations: Recommendation[];
 };
 
-export default function Recommendations({ recommended }: Props) {
+export default function Recommendations({ recommendations }: Props) {
   return (
     <ul>
-      {recommended.map((rec) => (
+      {recommendations.map((rec) => (
         <li key={rec.original_title}>
           Name: {rec.original_title} Similarity: {rec.similarity.toFixed(2)}
         </li>

@@ -18,14 +18,7 @@ export default function App() {
 
     try {
       const res = await fetch(`/search?q=${encodeURIComponent(query)}`);
-      if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new Error(
-          text
-            ? `Request Failed (${res.status}): ${text}`
-            : `Request Failed ${res.status}`,
-        );
-      }
+      await throwIfNotOk(res);
       const data = (await res.json()) as Movie[];
       console.log(data);
       setResults(data);
@@ -63,14 +56,7 @@ export default function App() {
         body: JSON.stringify(ids),
       });
 
-      if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new Error(
-          text
-            ? `Request Failed (${res.status}): ${text}`
-            : `Request Failed: ${res.status}`,
-        );
-      }
+      await throwIfNotOk(res);
       const data = (await res.json()) as Recommendation[];
       setRecommendations(data);
     } catch (e: unknown) {
@@ -90,6 +76,16 @@ export default function App() {
     setResults([]);
     setSelectedMovies([]);
     setError(null);
+  }
+
+  async function throwIfNotOk(res: Response) {
+    if (res.ok) return;
+    const text = await res.text().catch(() => "");
+    throw new Error(
+      text
+        ? `Request Failed (${res.status}): ${text}`
+        : `Request Failed: ${res.status}`,
+    );
   }
 
   return (
@@ -117,7 +113,7 @@ export default function App() {
       >
         {loading ? "Loading..." : "Get Recommendation"}
       </button>
-      <Recommendations recommended={recommendations} />
+      <Recommendations recommendations={recommendations} />
       <button
         onClick={handleReset}
         disabled={
