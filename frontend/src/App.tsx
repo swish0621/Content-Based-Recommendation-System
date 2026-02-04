@@ -1,14 +1,7 @@
 import { useState } from "react";
+import type {Movie, Recommendation} from "./types";
+import Recommendations from "./components/Recommendation";
 
-type Movie = {
-  id: number;
-  original_title: string;
-};
-
-type Recommendation = {
-  original_title: string;
-  similarity: number;
-};
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -141,13 +134,7 @@ export default function App() {
         {loading ? "Loading..." : "Get Recommendation"}
       </button>
 
-      <ul>
-        {recommended.map((rec) => (
-          <li key={rec.original_title}>
-            Name: {rec.original_title} Similarity: {rec.similarity.toFixed(2)}
-          </li>
-        ))}
-      </ul>
+      <Recommendations recommended={recommended} />
       <button
         onClick={handleReset}
         disabled={
