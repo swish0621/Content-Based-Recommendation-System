@@ -44,15 +44,15 @@ This project:
 ---
 
 ## 📌 View Deployed Demo
-```
-https://content-based-recommendation-system-ofm5.onrender.com/
-```
-<img width="1920" height="642" alt="Screenshot 2025-11-11 at 11 55 52 PM" src="https://github.com/user-attachments/assets/d0f8ae73-5847-4f7b-b9a2-f86e9ddf68ca" />
+**Live Link:** [https://content-based-recommendation-system-ofm5.onrender.com/](https://content-based-recommendation-system-v2.onrender.com/)
 
+<img width="1920" height="642" alt="Screenshot" src="https://github.com/user-attachments/assets/d0f8ae73-5847-4f7b-b9a2-f86e9ddf68ca" />
+
+---
 
 ## 🧠 High-Level Architecture
 
-```
+```text
 Raw CSV Data
 ↓
 Preprocessing / Normalization
@@ -103,23 +103,13 @@ python3 -m venv venv
 source venv/bin/activate   # macOS/Linux
 # venv\Scripts\activate    # Windows
 
-```
-### Install Dependencies
-```
 pip install -r requirements.txt
-```
-### Build SQLite Database
-```
-python -m backend.db
-```
-
-### Start FastAPI Application
-```
+python -m backend.db       # Build SQLite Database
 uvicorn backend.main:app --reload
 ```
-### Open Application
+App will run on:
 ```
-http://127.0.0.1:8000
+ http://127.0.0.1:8000
 ```
 
 ### Frontend setup (React + TypeScript)
@@ -134,52 +124,49 @@ npm run dev
 http://127.0.0.1:5173
 ```
 
-## API Endpoints
-```
-GET /search?q=<query>
-Returns a list of matching movies. 
-ex.
+## 📡 API Endpoints
 
+#### GET /search?q=\<query>  
+Returns a list of matching movies.  
+Example:
+```
 [
   { "id": 123, "original_title": "Toy Story" },
   { "id": 456, "original_title": "Toy Story 2" }
 ]
+```
 
-POST /recommend
-Body: JSON array of selected movie IDs
+#### POST /recommend  
+Body: JSON array of selected movie IDs  
 Request:
+```
 [123, 456]
+```
 
 Example response:
+```
 [
   { "original_title": "A Bug's Life", "similarity": 0.63 },
   { "original_title": "Monsters, Inc.", "similarity": 0.61 }
 ]
-
 ```
 
-
-### Validation (Optional)
-```
-python -m validation.validation
-```
-
-## Project Structure 
+## 📁 Project Structure 
 ```
 .
 ├── backend/                 # FastAPI app + recommender pipeline
-│   ├── data_processing/      # ingestion / preprocessing / transforms
-│   ├── db/                   # db setup/load/crud
-│   ├── feature/              # recommender logic
-│   └── main.py               # FastAPI entry point
-├── frontend/                 # Vite React + TS app
+│   ├── data_processing/     # ingestion / preprocessing / transforms
+│   ├── db/                  # db setup / load / crud
+│   ├── feature/             # recommender logic
+│   └── main.py              # FastAPI entry point
+├── frontend/                # Vite React + TS app
 │   └── src/
-│       ├── components/       # UI components (SearchResults, SelectedMovies, Recommendations)
-│       ├── App.tsx           # state + orchestration
-│       └── types.ts          # shared frontend types
-├── movies.db                 # SQLite database (generated locally)
+│       ├── components/      # UI components
+│       ├── App.tsx          # state + orchestration
+│       └── types.ts         # shared frontend types
+├── movies.db                # SQLite database (generated locally)
 ├── requirements.txt
-└── validation/               # offline evaluation tools
+└── build.sh                 # Render build script
 
 ```
 ## Key Learnings
