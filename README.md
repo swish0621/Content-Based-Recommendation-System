@@ -46,7 +46,8 @@ This project:
 ## 📌 View Deployed Demo
 **Live Link:** [https://content-based-recommendation-system-ofm5.onrender.com/](https://content-based-recommendation-system-v2.onrender.com/)
 
-<img width="1920" height="642" alt="Screenshot" src="https://github.com/user-attachments/assets/d0f8ae73-5847-4f7b-b9a2-f86e9ddf68ca" />
+<img width="1558" height="547" alt="Screenshot 2026-02-04 at 5 38 11 PM" src="https://github.com/user-attachments/assets/24ced436-4f26-4126-b1f1-25068f35987d" />
+
 
 ---
 
