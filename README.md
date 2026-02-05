@@ -7,7 +7,7 @@
 
 # Content-Based Recommendation System (Full Stack)
 
-A content-based movie recommender built from **The Movies Dataset (Kaggle / rounakbanik)**.
+A full-stack movie recommender platform featuring a FastAPI backend and a React/TypeScript frontend. It utilizes TF-IDF and Cosine Similarity to process movie metadata into real-time suggestions, supported by a SQLite database and a modern Vite-powered UI built from **The Movies Dataset (Kaggle / rounakbanik)**.
 
 This project:
 - ingests + cleans raw CSV movie metadata
