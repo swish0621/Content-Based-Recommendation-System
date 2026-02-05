@@ -1,7 +1,7 @@
 import sqlite3
-from data_processing.preprocess_data import movies, keywords
-from db.db_setup import create_database
-from db.db_load import load_keywords, load_movies
+from backend.data_processing.preprocess_data import movies, keywords
+from backend.db.db_setup import create_database
+from backend.db.db_load import load_keywords, load_movies
 import os
 
 

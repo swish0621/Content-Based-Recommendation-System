@@ -4,7 +4,7 @@
 
 
 import sqlite3
-from db.db_crud import *
+from backend.db.db_crud import *
 
 
 # Load movies and their data into the database 

@@ -9,8 +9,8 @@ import ast
 import json
 
 # Import the dataframes created in download_data
-from data_processing.download_data import keywords
-from data_processing.download_data import movies
+from backend.data_processing.download_data import keywords
+from backend.data_processing.download_data import movies
 
 from sklearn.feature_extraction.text import CountVectorizer
 
