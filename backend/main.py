@@ -12,7 +12,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], # Your React dev URL
+    allow_origins=["https://content-based-recommendation-system-v2.onrender.com"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
